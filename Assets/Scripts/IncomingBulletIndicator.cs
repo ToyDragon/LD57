@@ -27,7 +27,7 @@ public class IncomingBulletIndicator : MonoBehaviour
         transform.position = Camera.main.WorldToScreenPoint(worldHitSpot);
         var t = Mathf.Clamp01(1 - (bullet.position - worldHitSpot).magnitude/maxdist);
         outerCircle.color = Color.Lerp(startColor, endColor, t);
-        outerCircle.color = new Color(outerCircle.color.r, outerCircle.color.g, outerCircle.color.b, t*.7f);
+        outerCircle.color = new Color(outerCircle.color.r, outerCircle.color.g, outerCircle.color.b, t*.4f);
         innerCircle.color = outerCircle.color;
 
         float w = 15 + 150*t;

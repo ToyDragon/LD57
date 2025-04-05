@@ -19,7 +19,7 @@ public class EnemyBulletManager : MonoBehaviour
         var bullet = go.GetComponent<EnemyBulletController>();
         bullet.sourcePos = position;
         bullet.arcRadius = 3;
-        bullet.speed = 25;
+        bullet.speed = 35;
         bullet.screenDestination = screenDestination;
 
         var ind = GameObject.Instantiate(instance.indicatorPrefab);

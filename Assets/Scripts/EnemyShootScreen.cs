@@ -5,21 +5,42 @@ using UnityEngine.UIElements;
 
 
 #if UNITY_EDITOR
-// using UnityEditor;
-// [CustomEditor(typeof(EnemyShootScreen))]
-// public class EnemyShootScreenEditor : Editor {
-//     public override VisualElement CreateInspectorGUI()
-//     {
-//         VisualElement myInspector = new VisualElement();
+using UnityEditor;
+[CustomEditor(typeof(EnemyShootScreen))]
+public class EnemyShootScreenEditor : Editor {
+    public override VisualElement CreateInspectorGUI() {
+        VisualElement container = new VisualElement();
+        container.Add(new IMGUIContainer(OnInspectorGUI));
+        var label = new Label("Targeting location:");
+        float w = 300;
+        float h = w*9/16;
+        label.style.width = w;
+        label.style.height = h;
+        label.style.backgroundColor = new Color(.1f, .1f, .1f);
+        var t = (EnemyShootScreen)target;
 
-//         // Add a simple label.
-//         myInspector.Add(new Label("Targeting location:"));
+        var x = new Label("X");
+        x.style.marginLeft = -7 + w*t.screenTarget.x;
+        x.style.marginTop = -11 + h*(1 - t.screenTarget.y);
+        label.Add(x);
 
-//         // Return the finished Inspector UI.
-//         return myInspector;
-//     }
-
-// }
+        label.RegisterCallback<ClickEvent>(evt => {
+            t.screenTarget = new Vector2(
+                evt.localPosition.x/w,
+                1 - evt.localPosition.y/h
+            );
+            x.style.marginLeft = -7 + w*t.screenTarget.x;
+            x.style.marginTop = -11 + h*(1 - t.screenTarget.y);
+            EditorUtility.SetDirty(t);
+        });
+        container.Add(label);
+        return container;
+    }
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+    }
+}
 #endif
 
 public class EnemyShootScreen : MonoBehaviour
