@@ -11,29 +11,54 @@ public class EnemyShootScreenEditor : Editor {
     public override VisualElement CreateInspectorGUI() {
         VisualElement container = new VisualElement();
         container.Add(new IMGUIContainer(OnInspectorGUI));
-        var label = new Label("Targeting location:");
-        float w = 300;
-        float h = w*9/16;
-        label.style.width = w;
-        label.style.height = h;
-        label.style.backgroundColor = new Color(.1f, .1f, .1f);
+        var circle = new Label("");
+        float w = 400;
+        circle.style.width = w;
+        circle.style.height = w;
+        circle.style.backgroundColor = new Color(.1f, .1f, .1f);
+        circle.style.borderTopLeftRadius = w/2;
+        circle.style.borderTopRightRadius = w/2;
+        circle.style.borderBottomLeftRadius = w/2;
+        circle.style.borderBottomRightRadius = w/2;
+        circle.style.overflow = Overflow.Hidden;
         var t = (EnemyShootScreen)target;
 
-        var x = new Label("X");
-        x.style.marginLeft = -7 + w*t.screenTarget.x;
-        x.style.marginTop = -11 + h*(1 - t.screenTarget.y);
-        label.Add(x);
-
-        label.RegisterCallback<ClickEvent>(evt => {
+        var y = new Label(" ");
+        y.style.position = Position.Relative;
+        y.style.marginBottom = w;
+        float h = 33 * t.hitScale;
+        y.style.width = h;
+        y.style.height = h;
+        y.style.marginLeft = -h*.5f;
+        y.style.marginTop = -h*.5f - w;
+        y.style.borderTopLeftRadius = h*.5f;
+        y.style.borderTopRightRadius = h*.5f;
+        y.style.borderBottomLeftRadius = h*.5f;
+        y.style.borderBottomRightRadius = h*.5f;
+        y.style.backgroundColor = new Color(1, 0, 0);
+        y.style.left = w*t.screenTarget.x;
+        y.style.top = w*(1 - t.screenTarget.y);
+        y.pickingMode = PickingMode.Ignore;        
+        circle.RegisterCallback<ClickEvent>(evt => {
             t.screenTarget = new Vector2(
                 evt.localPosition.x/w,
-                1 - evt.localPosition.y/h
+                1 - evt.localPosition.y/w
             );
-            x.style.marginLeft = -7 + w*t.screenTarget.x;
-            x.style.marginTop = -11 + h*(1 - t.screenTarget.y);
+            y.style.left = w*t.screenTarget.x;
+            y.style.top = w*(1 - t.screenTarget.y);
+            float h = 33 * t.hitScale;
+            y.style.width = h;
+            y.style.height = h;
+            y.style.marginLeft = -h*.5f;
+            y.style.marginTop = -h*.5f - w;
+            y.style.borderTopLeftRadius = h*.5f;
+            y.style.borderTopRightRadius = h*.5f;
+            y.style.borderBottomLeftRadius = h*.5f;
+            y.style.borderBottomRightRadius = h*.5f;
             EditorUtility.SetDirty(t);
-        });
-        container.Add(label);
+        }, TrickleDown.TrickleDown);
+        container.Add(circle);
+        container.Add(y);
         return container;
     }
     public override void OnInspectorGUI()
@@ -50,6 +75,7 @@ public class EnemyShootScreen : MonoBehaviour
     public float triggerDistance;
     public List<Transform> guns;
     private int lastGun;
+    public float hitScale = 1;
     private float lastShoot = -100;
     void OnEnable() {
         if (guns.Count == 0) {
@@ -61,7 +87,7 @@ public class EnemyShootScreen : MonoBehaviour
         if (transform.position.z > shipPos.z && transform.position.z < shipPos.z + triggerDistance) {
             if (Time.time - lastShoot > shootDelay) {
                 lastShoot = Time.time;
-                EnemyBulletManager.Create(guns[lastGun].position, screenTarget);
+                EnemyBulletManager.Create(guns[lastGun].position, screenTarget, hitScale);
                 lastGun = (lastGun + 1) % guns.Count;
             }
         }

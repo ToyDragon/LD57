@@ -10,6 +10,8 @@ public class IncomingBulletIndicator3D : MonoBehaviour
     public Vector2 screenDest;
     public Color startColor = Color.white;
     public Color endColor = Color.red;
+    [HideInInspector]
+    public float scale;
     private float maxdist = 40;
     void OnEnable() {
         outerCircle.sharedMaterial = new Material(outerCircle.sharedMaterial);
@@ -40,8 +42,8 @@ public class IncomingBulletIndicator3D : MonoBehaviour
         innerCircle.sharedMaterial.color = outerCircle.sharedMaterial.color;
 
         innerCircle.transform.position = worldHitSpot;
-        innerCircle.transform.localScale = Vector3.one * PlayerDamage.instance.radius;
+        innerCircle.transform.localScale = (scale + PlayerDamage.instance.radius) * Vector3.one;
         outerCircle.transform.position = worldHitSpot;
-        outerCircle.transform.localScale = Vector3.one * PlayerDamage.instance.radius*t;
+        outerCircle.transform.localScale = (scale + PlayerDamage.instance.radius) * Vector3.one*t;
     }
 }

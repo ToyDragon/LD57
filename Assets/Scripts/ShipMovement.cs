@@ -4,9 +4,7 @@ public class ShipMovement : MonoBehaviour
 {
     public static ShipMovement instance;
     public Vector2 moveSpeed = new Vector2(3, 2);
-    public float xLimit = 3;
-    public float yUpperLimit = 1.5f;
-    public float yLowerLimit = -1.3f;
+    public float radialLimit = 10f;
     private Vector3 laggingLookOffset;
     private PlayerDamage playerDamage;
     void OnEnable() {
@@ -33,16 +31,16 @@ public class ShipMovement : MonoBehaviour
     }
 
     private Vector3 ClampPos(Vector3 pos) {
-        return new Vector3(
-            Mathf.Clamp(pos.x, -xLimit, xLimit),
-            Mathf.Clamp(pos.y, yLowerLimit, yUpperLimit),
-            pos.z
-        );
+        var xyClamped = new Vector2(pos.x, pos.y);
+        if (xyClamped.magnitude > radialLimit) {
+            xyClamped = xyClamped.normalized*radialLimit;
+        }
+        return new Vector3(xyClamped.x, xyClamped.y, pos.z);
     }
     public static Vector3 GetScreenPos(Vector2 screenPos) {
         return new Vector3(
-            -instance.xLimit + instance.xLimit*2*screenPos.x,
-            instance.yLowerLimit + (instance.yUpperLimit - instance.yLowerLimit)*screenPos.y,
+            (screenPos.x*2 - 1)*instance.radialLimit,
+            (screenPos.y*2 - 1)*instance.radialLimit,
             instance.transform.position.z
         );
     }
