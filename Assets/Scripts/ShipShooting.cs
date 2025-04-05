@@ -17,11 +17,13 @@ public class ShipShooting : MonoBehaviour
     }
     public TargetingMode targetingMode;
     public LayerMask targetingLayers;
+    public LayerMask aimAssistLayers;
     private Camera cam;
     private float? lastShoot;
     public float shootDelay = .25f;
     void OnEnable() {
         cam = Camera.main;
+        Cursor.visible = false;
     }
     void Update() {
         indicator2D.SetActive(targetingMode == TargetingMode.TwoD);
@@ -42,8 +44,12 @@ public class ShipShooting : MonoBehaviour
     private Vector3 GetCamTargetPoint() {
         var ray = cam.ScreenPointToRay(Input.mousePosition);
         var hitPoint = cam.transform.position + ray.direction * max3dTargetingDistance;
-        if (Physics.Raycast(ray, out var hit, 9999, targetingLayers)) {
-            hitPoint = hit.point - ray.direction * 2;
+        if (Physics.SphereCast(ray, 1, out var hit, 9999, targetingLayers)) {
+            hitPoint = ray.origin + ray.direction*Mathf.Max(1, hit.distance - 2);
+            Debug.Log(hit.collider.gameObject.layer);
+            if ((aimAssistLayers & (1 << hit.collider.gameObject.layer)) != 0) {
+                hitPoint = hitPoint*.25f + hit.point*.75f;
+            }
             var del = hitPoint - cam.transform.position;
             if (del.magnitude > max3dTargetingDistance) {
                 hitPoint = cam.transform.position + del.normalized * max3dTargetingDistance;

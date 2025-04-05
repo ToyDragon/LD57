@@ -15,15 +15,15 @@ public class ShipMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) { inputDir += Vector2.down; }
         if (Input.GetKey(KeyCode.D)) { inputDir += Vector2.right; }
 
-        transform.position = ClampPos(
-            transform.position +
+        transform.localPosition = ClampPos(
+            transform.localPosition +
             Time.deltaTime*new Vector3(moveSpeed.x*inputDir.x, moveSpeed.y*inputDir.y, 0)
         );
 
         var lookOffset = new Vector3(moveSpeed.x*inputDir.x, moveSpeed.y*inputDir.y);
         float t = Mathf.Clamp01(Time.deltaTime*5);
         laggingLookOffset = laggingLookOffset*(1-t) + lookOffset*t;
-        transform.LookAt(ClampPos(transform.position + laggingLookOffset + Vector3.forward*6));
+        transform.LookAt(ClampPos(transform.position + laggingLookOffset + Vector3.forward*18));
     }
 
     private Vector3 ClampPos(Vector3 pos) {
