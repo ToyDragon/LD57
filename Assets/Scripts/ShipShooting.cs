@@ -17,38 +17,38 @@ public class ShipShooting : MonoBehaviour
     }
     public TargetingMode targetingMode;
     public LayerMask targetingLayers;
+    public LayerMask aimAssistLayers;
     private Camera cam;
+    private float? lastShoot;
+    public float shootDelay = .25f;
     void OnEnable() {
         cam = Camera.main;
+        Cursor.visible = false;
     }
     void Update() {
+        indicator2D.SetActive(targetingMode == TargetingMode.TwoD);
+        indicator3D.SetActive(targetingMode == TargetingMode.ThreeD);
         if (targetingMode == TargetingMode.ThreeD) {
-            indicator2D.SetActive(false);
-            indicator3D.SetActive(true);
             indicator3D.transform.position = GetCamTargetPoint();
             indicator3D.transform.LookAt(cam.transform);
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                SendBulletTo(indicator3D.transform.position);
-            }
+            TryShootTo(indicator3D.transform.position);
         }
 
         if (targetingMode == TargetingMode.TwoD) {
-            indicator2D.SetActive(true);
-            indicator3D.SetActive(false);
-
             var rt = (RectTransform)indicator2D.transform;
             rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, Input.mousePosition.x - rt.sizeDelta.x*.5f, rt.sizeDelta.x);
             rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, Input.mousePosition.y - rt.sizeDelta.y*.5f, rt.sizeDelta.y);
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                SendBulletTo(GetCamTargetPoint());
-            }
+            TryShootTo(GetCamTargetPoint());
         }
     }
     private Vector3 GetCamTargetPoint() {
         var ray = cam.ScreenPointToRay(Input.mousePosition);
         var hitPoint = cam.transform.position + ray.direction * max3dTargetingDistance;
-        if (Physics.Raycast(ray, out var hit, 9999, targetingLayers)) {
-            hitPoint = hit.point - ray.direction * 2;
+        if (Physics.SphereCast(ray, 1, out var hit, 9999, targetingLayers)) {
+            hitPoint = ray.origin + ray.direction*Mathf.Max(1, hit.distance - 2);
+            if ((aimAssistLayers & (1 << hit.collider.gameObject.layer)) != 0) {
+                hitPoint = hitPoint*.25f + hit.point*.75f;
+            }
             var del = hitPoint - cam.transform.position;
             if (del.magnitude > max3dTargetingDistance) {
                 hitPoint = cam.transform.position + del.normalized * max3dTargetingDistance;
@@ -56,7 +56,14 @@ public class ShipShooting : MonoBehaviour
         }
         return hitPoint;
     }
-
+    private void TryShootTo(Vector3 destination) {
+        if (Input.GetKey(KeyCode.Mouse0)) {
+            if (!lastShoot.HasValue || Time.time - lastShoot.Value > shootDelay) {
+                lastShoot = Time.time;
+                SendBulletTo(destination);
+            }
+        }
+    }
     private void SendBulletTo(Vector3 destination) {
         var go = GameObject.Instantiate(bulletPrefab);
         go.transform.position = guns[lastGun].transform.position;
