@@ -18,7 +18,6 @@ public class PlayerDamage : MonoBehaviour
     public void BulletHit(Vector3 pos, float scale) {
         var del = transform.position - pos;
         del = new Vector3(del.x, del.y, 0);
-        Debug.Log($"del {del} {del.magnitude}");
         if (del.magnitude < radius + scale) {
             lastHitTime = Time.time;
             damage += .5f + 1.5f*Mathf.Clamp01(1 - damage/4);
