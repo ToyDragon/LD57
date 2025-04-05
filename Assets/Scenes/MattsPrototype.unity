@@ -804,6 +804,53 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &704299289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 704299291}
+  - component: {fileID: 704299290}
+  m_Layer: 0
+  m_Name: enemy bullet manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &704299290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704299289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 622aab662e4dbb23da46f8e090cda07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 3945183956090824308, guid: d8237ec704033e44683658ba89759d67, type: 3}
+  indicatorPrefab: {fileID: 4647287618612805197, guid: 2ae01774b8109cde89d72feb286dfa92, type: 3}
+  canvas: {fileID: 1741745552}
+--- !u!4 &704299291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704299289}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.72181, y: 4.024945, z: -31.763279}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &717170774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,7 +1922,7 @@ Transform:
   m_GameObject: {fileID: 1569517362}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08715578, y: -0, z: -0, w: 0.9961947}
-  m_LocalPosition: {x: 0, y: 0, z: -15}
+  m_LocalPosition: {x: 0, y: 2, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1983,6 +2030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1734187332}
+  - component: {fileID: 1734187333}
   m_Layer: 7
   m_Name: wall enemy
   m_TagString: Untagged
@@ -1999,7 +2047,7 @@ Transform:
   m_GameObject: {fileID: 1734187331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.8, y: 0, z: 17.68}
+  m_LocalPosition: {x: -19.8, y: 0, z: 55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2007,6 +2055,23 @@ Transform:
   - {fileID: 1498713620}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1734187333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734187331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8700bd2d27a8ca9059420f8cd9eedac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenTarget: {x: 0.5, y: 0.5}
+  shootDelay: 0.5
+  triggerDistance: 70
+  guns:
+  - {fileID: 1498713620}
 --- !u!1 &1741745552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,6 +2494,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2046570600}
+  - component: {fileID: 2046570601}
   m_Layer: 0
   m_Name: Player scene
   m_TagString: Untagged
@@ -2453,6 +2519,18 @@ Transform:
   - {fileID: 1755473488}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2046570601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046570599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e0f557372ab5e867b092f97495ea46d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2465,3 +2543,4 @@ SceneRoots:
   - {fileID: 1312765183}
   - {fileID: 1690417537}
   - {fileID: 1734187332}
+  - {fileID: 704299291}

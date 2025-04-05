@@ -46,7 +46,6 @@ public class ShipShooting : MonoBehaviour
         var hitPoint = cam.transform.position + ray.direction * max3dTargetingDistance;
         if (Physics.SphereCast(ray, 1, out var hit, 9999, targetingLayers)) {
             hitPoint = ray.origin + ray.direction*Mathf.Max(1, hit.distance - 2);
-            Debug.Log(hit.collider.gameObject.layer);
             if ((aimAssistLayers & (1 << hit.collider.gameObject.layer)) != 0) {
                 hitPoint = hitPoint*.25f + hit.point*.75f;
             }
