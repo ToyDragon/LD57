@@ -18,30 +18,25 @@ public class ShipShooting : MonoBehaviour
     public TargetingMode targetingMode;
     public LayerMask targetingLayers;
     private Camera cam;
+    private float? lastShoot;
+    public float shootDelay = .25f;
     void OnEnable() {
         cam = Camera.main;
     }
     void Update() {
+        indicator2D.SetActive(targetingMode == TargetingMode.TwoD);
+        indicator3D.SetActive(targetingMode == TargetingMode.ThreeD);
         if (targetingMode == TargetingMode.ThreeD) {
-            indicator2D.SetActive(false);
-            indicator3D.SetActive(true);
             indicator3D.transform.position = GetCamTargetPoint();
             indicator3D.transform.LookAt(cam.transform);
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                SendBulletTo(indicator3D.transform.position);
-            }
+            TryShootTo(indicator3D.transform.position);
         }
 
         if (targetingMode == TargetingMode.TwoD) {
-            indicator2D.SetActive(true);
-            indicator3D.SetActive(false);
-
             var rt = (RectTransform)indicator2D.transform;
             rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, Input.mousePosition.x - rt.sizeDelta.x*.5f, rt.sizeDelta.x);
             rt.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, Input.mousePosition.y - rt.sizeDelta.y*.5f, rt.sizeDelta.y);
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                SendBulletTo(GetCamTargetPoint());
-            }
+            TryShootTo(GetCamTargetPoint());
         }
     }
     private Vector3 GetCamTargetPoint() {
@@ -56,7 +51,14 @@ public class ShipShooting : MonoBehaviour
         }
         return hitPoint;
     }
-
+    private void TryShootTo(Vector3 destination) {
+        if (Input.GetKey(KeyCode.Mouse0)) {
+            if (!lastShoot.HasValue || Time.time - lastShoot.Value > shootDelay) {
+                lastShoot = Time.time;
+                SendBulletTo(destination);
+            }
+        }
+    }
     private void SendBulletTo(Vector3 destination) {
         var go = GameObject.Instantiate(bulletPrefab);
         go.transform.position = guns[lastGun].transform.position;
