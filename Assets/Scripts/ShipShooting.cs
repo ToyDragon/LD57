@@ -21,6 +21,7 @@ public class ShipShooting : MonoBehaviour
     private Camera cam;
     private float? lastShoot;
     public float shootDelay = .25f;
+    public AudioSource shootSource;
     void OnEnable() {
         cam = Camera.main;
         Cursor.visible = false;
@@ -44,7 +45,7 @@ public class ShipShooting : MonoBehaviour
     private Vector3 GetCamTargetPoint() {
         var ray = cam.ScreenPointToRay(Input.mousePosition);
         var hitPoint = cam.transform.position + ray.direction * max3dTargetingDistance;
-        if (Physics.SphereCast(ray, 1, out var hit, 9999, targetingLayers)) {
+        if (Physics.SphereCast(ray, 1, out var hit, 9999, targetingLayers, QueryTriggerInteraction.Ignore)) {
             hitPoint = ray.origin + ray.direction*Mathf.Max(1, hit.distance - 2);
             if ((aimAssistLayers & (1 << hit.collider.gameObject.layer)) != 0) {
                 hitPoint = hitPoint*.25f + hit.point*.75f;
@@ -72,5 +73,6 @@ public class ShipShooting : MonoBehaviour
         bullet.direction = (destination - go.transform.position).normalized;
         bullet.speed = bulletSpeed;
         bullet.expireTime = Time.time + bulletDuration;
+        shootSource.Play();
     }
 }

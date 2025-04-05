@@ -37,7 +37,6 @@ public class EnemyShootScreen : MonoBehaviour
     }
     void Update() {
         var shipPos = ShipMovement.instance.transform.position;
-        Debug.Log($"{transform.position.z} < {shipPos.z} + {triggerDistance}");
         if (transform.position.z > shipPos.z && transform.position.z < shipPos.z + triggerDistance) {
             if (Time.time - lastShoot > shootDelay) {
                 lastShoot = Time.time;
