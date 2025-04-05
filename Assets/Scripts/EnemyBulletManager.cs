@@ -11,7 +11,10 @@ public class EnemyBulletManager : MonoBehaviour
         instance = this;
     }
     public static void Create(Vector3 position, Vector2 screenDestination) {
+        var parent = GameObject.Find("Player scene");
+
         var go = GameObject.Instantiate(instance.bulletPrefab);
+        go.transform.SetParent(parent.transform);
         go.transform.position = position;
         var bullet = go.GetComponent<EnemyBulletController>();
         bullet.sourcePos = position;
@@ -20,6 +23,7 @@ public class EnemyBulletManager : MonoBehaviour
         bullet.screenDestination = screenDestination;
 
         var ind = GameObject.Instantiate(instance.indicatorPrefab);
+        ind.transform.SetParent(parent.transform);
         var indicator = ind.GetComponent<IncomingBulletIndicator>();
         indicator.bullet = go.transform;
         indicator.screenDest = screenDestination;

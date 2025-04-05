@@ -8,8 +8,10 @@ public class ShipMovement : MonoBehaviour
     public float yUpperLimit = 1.5f;
     public float yLowerLimit = -1.3f;
     private Vector3 laggingLookOffset;
+    private PlayerDamage playerDamage;
     void OnEnable() {
         instance = this;
+        playerDamage = GetComponent<PlayerDamage>();
     }
     void Update() {
         Vector2 inputDir = Vector2.zero;
@@ -26,7 +28,8 @@ public class ShipMovement : MonoBehaviour
         var lookOffset = new Vector3(moveSpeed.x*inputDir.x, moveSpeed.y*inputDir.y);
         float t = Mathf.Clamp01(Time.deltaTime*5);
         laggingLookOffset = laggingLookOffset*(1-t) + lookOffset*t;
-        transform.LookAt(ClampPos(transform.position + laggingLookOffset + Vector3.forward*18));
+        float damageT = 1 - Mathf.Clamp01((Time.time - playerDamage.lastHitTime)*3f);
+        transform.LookAt(ClampPos(transform.position + laggingLookOffset + Vector3.forward*18) + damageT*10*new Vector3(Mathf.Sin(Time.time * 10), Mathf.Cos(Time.time*7)));
     }
 
     private Vector3 ClampPos(Vector3 pos) {
