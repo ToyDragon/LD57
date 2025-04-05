@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8711115947474462429}
   - component: {fileID: 4097488931718723750}
   - component: {fileID: 1116904414696276301}
+  - component: {fileID: 7781706329922322211}
   m_Layer: 0
   m_Name: bullet hit enemy
   m_TagString: Untagged
@@ -4844,8 +4845,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 48889fd0254b1d882a3ec2b31eddf028, type: 3}
-  m_Resource: {fileID: 8300000, guid: 48889fd0254b1d882a3ec2b31eddf028, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9551f82fbe4a07c978e9b8aa615833a7, type: 3}
+  m_Resource: {fileID: 8300000, guid: 9551f82fbe4a07c978e9b8aa615833a7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.099
   m_Pitch: 1
@@ -4931,3 +4932,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7781706329922322211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3229339436603145899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0c61f720b1f4c0fa9b2a112ee24274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 1
