@@ -25,7 +25,6 @@ public class BulletController : MonoBehaviour
         }
     }
     void OnCollisionEnter(Collision collision) {
-        Debug.Log($"Collide?");
         EffectsManager.BulletHit(collision.contacts[0].point, collision.contacts[0].normal, false);
         Destroy(gameObject);
     }

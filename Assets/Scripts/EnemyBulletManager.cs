@@ -6,6 +6,7 @@ public class EnemyBulletManager : MonoBehaviour
     public static EnemyBulletManager instance;
     public GameObject bulletPrefab;
     public GameObject indicatorPrefab;
+    public GameObject indicatorPrefab3D;
     public GameObject canvas;
     void OnEnable() {
         instance = this;
@@ -22,12 +23,10 @@ public class EnemyBulletManager : MonoBehaviour
         bullet.speed = 35;
         bullet.screenDestination = screenDestination;
 
-        var ind = GameObject.Instantiate(instance.indicatorPrefab);
-        ind.transform.SetParent(parent.transform);
-        var indicator = ind.GetComponent<IncomingBulletIndicator>();
+        var ind = GameObject.Instantiate(instance.indicatorPrefab3D);
+        var indicator = ind.GetComponent<IncomingBulletIndicator3D>();
         indicator.bullet = go.transform;
         indicator.screenDest = screenDestination;
-        ind.transform.SetParent(instance.canvas.transform);
         indicator.Init();
     }
 }

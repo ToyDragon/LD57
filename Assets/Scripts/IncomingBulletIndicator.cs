@@ -30,11 +30,14 @@ public class IncomingBulletIndicator : MonoBehaviour
         outerCircle.color = new Color(outerCircle.color.r, outerCircle.color.g, outerCircle.color.b, t*.4f);
         innerCircle.color = outerCircle.color;
 
-        float w = 15 + 150*t;
+        
+        float border = 15;
+        float width = 250;
+        float w = border + (width-border)*t;
         innerCircle.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (100 - w)*.5f, w);
         innerCircle.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, (100 - w)*.5f, w);
 
-        outerCircle.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (100 - 165)*.5f, 165);
-        outerCircle.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, (100 - 165)*.5f, 165);
+        outerCircle.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (100 - width)*.5f, width);
+        outerCircle.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, (100 - width)*.5f, width);
     }
 }

@@ -1140,7 +1140,8 @@ MonoBehaviour:
   hurtSounds:
   - {fileID: 7864584366339102955}
   - {fileID: 4088949539952103018}
-  radius: 3
+  radius: 4.5
+  lastHitTime: -100
 --- !u!82 &7864584366339102955
 AudioSource:
   m_ObjectHideFlags: 0

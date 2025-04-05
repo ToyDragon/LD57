@@ -175,4 +175,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3945183956090824308, guid: d8237ec704033e44683658ba89759d67, type: 3}
   indicatorPrefab: {fileID: 4647287618612805197, guid: 2ae01774b8109cde89d72feb286dfa92, type: 3}
+  indicatorPrefab3D: {fileID: 260296352922426896, guid: 85199d8878fa9e447937c8ebbc93bd54, type: 3}
   canvas: {fileID: 0}
