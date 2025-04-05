@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class ForwardMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public float speed;
+    void Update() {
+        transform.position += Vector3.forward * Time.deltaTime * speed;
     }
 }
