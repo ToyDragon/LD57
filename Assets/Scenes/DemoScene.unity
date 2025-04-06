@@ -1403,6 +1403,10 @@ PrefabInstance:
       value: Player scene
       objectReference: {fileID: 0}
     - target: {fileID: 8944639010413192850, guid: 745862df0fa1d1092b7e36b684dff684, type: 3}
+      propertyPath: gunAnimator
+      value: 
+      objectReference: {fileID: 1879794876}
+    - target: {fileID: 8944639010413192850, guid: 745862df0fa1d1092b7e36b684dff684, type: 3}
       propertyPath: indicator2D
       value: 
       objectReference: {fileID: 2065322511}
@@ -1730,6 +1734,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 7444264cfa2ae7346ae12edc35b03e54, type: 3}
+--- !u!95 &1879794876 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3755711999275912890, guid: 745862df0fa1d1092b7e36b684dff684, type: 3}
+  m_PrefabInstance: {fileID: 1519395940}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1992896328
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -25,6 +25,8 @@ public class LevelEndAnimator : MonoBehaviour
                 originalCamPos = cam.transform.position;
                 originalCamRot = cam.transform.rotation;
                 soundState = 0;
+
+                ShipShooting.instance.gunAnimator.SetBool("GunsOpen", false);
             }
             return;
         }
