@@ -5,17 +5,21 @@ public class PlayerDamage : MonoBehaviour
 {
     public static PlayerDamage instance;
     public float damage;
+    public float boost;
     public List<AudioSource> hurtSounds;
     public float radius = 3;
     private float lastCollisionHit = -100;
     [HideInInspector]
     public float lastHitTime = -100;
     public LayerMask collisionMask;
+    public LayerMask ringMask;
+    public AudioSource ringChimeSource;
     void OnEnable() {
         instance = this;
     }
     void Update() {
         damage = Mathf.Max(0, damage - Time.deltaTime);
+        boost = Mathf.Max(0, boost - Time.deltaTime*2);
     }
     public void BulletHit(Vector3 pos, float scale) {
         var del = transform.position - pos;
@@ -32,12 +36,18 @@ public class PlayerDamage : MonoBehaviour
         }
     }
     void OnTriggerEnter(Collider other) {
-        if ((collisionMask & (1 << other.gameObject.layer)) == 0) {
-            return;
+        if ((ringMask & (1 << other.gameObject.layer)) != 0) {
+            boost = 8f;
+            if (other.gameObject.TryGetComponent<RingBehavior>(out var rb)) {
+                rb.collectedTime = Time.time;
+                ringChimeSource.Play();
+            }
         }
-        if (Time.time - lastCollisionHit > .5f) {
-            lastCollisionHit = Time.time;
-            TakeHit();
+        if ((collisionMask & (1 << other.gameObject.layer)) != 0) {
+            if (Time.time - lastCollisionHit > .5f) {
+                lastCollisionHit = Time.time;
+                TakeHit();
+            }
         }
     }
 }

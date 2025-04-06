@@ -23,6 +23,7 @@ public class GameDirector : MonoBehaviour
     private LevelEndAnimator endAnim;
     public Image screenBlack;
     public float levelStartTime = -100;
+    public GameObject menuItems;
     void OnEnable() {
         instance = this;
     }
@@ -33,7 +34,7 @@ public class GameDirector : MonoBehaviour
         endAnim.soundState = 3;
     }
     void Update() {
-
+        menuItems.SetActive(state == GameState.InMenu);
 
         if (transitionTime <= 0 && state == GameState.InMenu) {
             if (Input.GetKeyDown(KeyCode.Space)) {

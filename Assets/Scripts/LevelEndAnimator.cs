@@ -24,10 +24,13 @@ public class LevelEndAnimator : MonoBehaviour
     private Vector3 currentShakeDir = Vector3.zero;
     public GameObject diggingParticleObject;
     public AudioSource windSource;
+    private float initialWindVol;
     private bool endedLevel = true;
+    private float windVolBoost;
     void OnEnable() {
         instance = this;
         audioSource = GetComponent<AudioSource>();
+        initialWindVol = windSource.volume;
     }
     void LateUpdate() {
         var cam = Camera.main;
@@ -45,6 +48,12 @@ public class LevelEndAnimator : MonoBehaviour
             if (endAnimStartTime < -50) {
                 diggingParticleObject.SetActive(false);
             }
+            if (PlayerDamage.instance.boost > 0) {
+                windVolBoost = Mathf.Clamp01(windVolBoost + Time.deltaTime);
+            } else {
+                windVolBoost = Mathf.Clamp01(windVolBoost - Time.deltaTime);
+            }
+            windSource.volume = initialWindVol + .1f * windVolBoost;
             return;
         }
         windSource.volume = .03f;
@@ -82,7 +91,7 @@ public class LevelEndAnimator : MonoBehaviour
             }
 
             if (audioSource.clip != null) {
-                audioSource.clip.GetData(clipSample, audioSource.timeSamples);
+                audioSource.clip.GetData(clipSample, Mathf.Min(audioSource.clip.samples - audioSource.timeSamples, audioSource.timeSamples));
                 float vol = 1 - Time.deltaTime;
                 foreach (float sample in clipSample) {
                     vol += Mathf.Abs(sample) * 0.001f;
