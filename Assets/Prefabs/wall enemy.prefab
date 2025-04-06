@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 9056525097550522689}
   - component: {fileID: 2327266619548455137}
   - component: {fileID: 9153717470582113675}
+  - component: {fileID: 1193470817672486279}
   m_Layer: 7
   m_Name: wall enemy
   m_TagString: Untagged
@@ -268,8 +269,11 @@ MonoBehaviour:
   screenTarget: {x: 0.5, y: 0.5}
   shootDelay: 4
   triggerDistance: 70
+  minTriggerDistance: 15
   guns:
   - {fileID: 5350548846398456052}
+  hitScale: 1
+  targetShip: 0
 --- !u!114 &9153717470582113675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +287,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 3
+--- !u!114 &1193470817672486279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4637402120882913472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8761255fb69e133f8d8e43ff4c9b0e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6214019180247639049
 GameObject:
   m_ObjectHideFlags: 0

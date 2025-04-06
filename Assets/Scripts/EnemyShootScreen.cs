@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -92,7 +91,6 @@ public class EnemyShootScreen : MonoBehaviour
             if (Time.time - lastShoot > shootDelay) {
                 lastShoot = Time.time;
                 var shipScreenPos = new Vector2(.5f + .5f*shipLocal.x/ship.radialLimit, .5f + .5f*shipLocal.y/ship.radialLimit);
-                Debug.Log($"shipScreenPos {shipLocal} {shipScreenPos}");
                 var target = targetShip ? shipScreenPos : screenTarget;
                 EnemyBulletManager.Create(guns[lastGun].position, target, hitScale);
                 lastGun = (lastGun + 1) % guns.Count;
