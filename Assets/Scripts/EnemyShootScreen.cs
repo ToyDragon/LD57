@@ -73,6 +73,7 @@ public class EnemyShootScreen : MonoBehaviour
     public Vector2 screenTarget = new Vector2(.5f, .5f);
     public float shootDelay;
     public float triggerDistance;
+    public float minTriggerDistance = 15;
     public List<Transform> guns;
     private int lastGun;
     public float hitScale = 1;
@@ -84,7 +85,7 @@ public class EnemyShootScreen : MonoBehaviour
     }
     void Update() {
         var shipPos = ShipMovement.instance.transform.position;
-        if (transform.position.z > shipPos.z && transform.position.z < shipPos.z + triggerDistance) {
+        if (transform.position.z > shipPos.z + minTriggerDistance && transform.position.z < shipPos.z + triggerDistance) {
             if (Time.time - lastShoot > shootDelay) {
                 lastShoot = Time.time;
                 EnemyBulletManager.Create(guns[lastGun].position, screenTarget, hitScale);

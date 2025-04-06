@@ -41,7 +41,8 @@ public class IncomingBulletIndicator3D : MonoBehaviour
 
         innerCircle.transform.position = worldHitSpot;
         innerCircle.transform.localScale = 2*(scale + PlayerDamage.instance.radius) * Vector3.one;
+        innerCircle.sharedMaterial.SetFloat("_Radius", t*.45f);
         outerCircle.transform.position = worldHitSpot;
-        outerCircle.transform.localScale = 2*(scale + PlayerDamage.instance.radius) * Vector3.one*t;
+        outerCircle.transform.localScale = 2*(scale + PlayerDamage.instance.radius) * Vector3.one;
     }
 }

@@ -52,6 +52,7 @@ MonoBehaviour:
   screenDest: {x: 0, y: 0}
   startColor: {r: 1, g: 1, b: 1, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
+  scale: 0
 --- !u!1 &1166629248604593184
 GameObject:
   m_ObjectHideFlags: 0

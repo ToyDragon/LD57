@@ -7,8 +7,10 @@ public class PlayerDamage : MonoBehaviour
     public float damage;
     public List<AudioSource> hurtSounds;
     public float radius = 3;
+    private float lastCollisionHit = -100;
     [HideInInspector]
     public float lastHitTime = -100;
+    public LayerMask collisionMask;
     void OnEnable() {
         instance = this;
     }
@@ -19,11 +21,23 @@ public class PlayerDamage : MonoBehaviour
         var del = transform.position - pos;
         del = new Vector3(del.x, del.y, 0);
         if (del.magnitude < radius + scale) {
-            lastHitTime = Time.time;
-            damage += .5f + 1.5f*Mathf.Clamp01(1 - damage/4);
-            foreach (var sound in hurtSounds) {
-                sound.Play();
-            }
+            TakeHit();
+        }
+    }
+    private void TakeHit() {
+        lastHitTime = Time.time;
+        damage += .5f + 1.5f*Mathf.Clamp01(1 - damage/4);
+        foreach (var sound in hurtSounds) {
+            sound.Play();
+        }
+    }
+    void OnTriggerEnter(Collider other) {
+        if ((collisionMask & (1 << other.gameObject.layer)) == 0) {
+            return;
+        }
+        if (Time.time - lastCollisionHit > .5f) {
+            lastCollisionHit = Time.time;
+            TakeHit();
         }
     }
 }
