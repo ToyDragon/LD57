@@ -966,7 +966,7 @@ GameObject:
   - component: {fileID: 3286662501152594228}
   - component: {fileID: 3930879394332372442}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: fog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
