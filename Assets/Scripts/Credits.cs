@@ -24,4 +24,7 @@ public class Credits {
 
     // slam when entering level
     // https://splice.com/sounds/sample/65b6bbfd0f5b5c5e65f47bb4e52a173d0d14371d615c420de757983831b5dc19
+
+    // chime
+    // https://splice.com/sounds/sample/b9fe4e96be6cf4ce81e852243576ca7568228af4423b49075bdc174857b5d3cb
 }
