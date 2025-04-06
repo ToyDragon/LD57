@@ -11,7 +11,7 @@ public class EnemyBulletManager : MonoBehaviour
     void OnEnable() {
         instance = this;
     }
-    public static void Create(Vector3 position, Vector2 screenDestination, float scale) {
+    public static void Create(Vector3 position, Vector2 screenDestination, float bulletSpeed, float scale) {
         var parent = GameObject.Find("Player scene");
 
         var go = GameObject.Instantiate(instance.bulletPrefab);
@@ -19,8 +19,7 @@ public class EnemyBulletManager : MonoBehaviour
         go.transform.position = position;
         var bullet = go.GetComponent<EnemyBulletController>();
         bullet.sourcePos = position;
-        bullet.arcRadius = 3;
-        bullet.speed = 35;
+        bullet.speed = bulletSpeed;
         bullet.screenDestination = screenDestination;
         bullet.scale = scale;
 

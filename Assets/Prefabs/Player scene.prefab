@@ -1115,8 +1115,8 @@ MonoBehaviour:
   - {fileID: 8048982496517708347}
   indicator3D: {fileID: 1603407272173779559}
   indicator2D: {fileID: 0}
-  max3dTargetingDistance: 100
-  bulletSpeed: 60
+  max3dTargetingDistance: 250
+  bulletSpeed: 200
   bulletDuration: 3
   targetingMode: 0
   targetingLayers:

@@ -77,6 +77,7 @@ public class EnemyShootScreen : MonoBehaviour
     private int lastGun;
     public float hitScale = 1;
     public bool targetShip;
+    public float bulletSpeed = 60;
     private float lastShoot = -100;
     void OnEnable() {
         if (guns.Count == 0) {
@@ -92,7 +93,7 @@ public class EnemyShootScreen : MonoBehaviour
                 lastShoot = Time.time;
                 var shipScreenPos = new Vector2(.5f + .5f*shipLocal.x/ship.radialLimit, .5f + .5f*shipLocal.y/ship.radialLimit);
                 var target = targetShip ? shipScreenPos : screenTarget;
-                EnemyBulletManager.Create(guns[lastGun].position, target, hitScale);
+                EnemyBulletManager.Create(guns[lastGun].position, target, bulletSpeed, hitScale);
                 lastGun = (lastGun + 1) % guns.Count;
             }
         }
