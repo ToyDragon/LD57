@@ -38,21 +38,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-<<<<<<< HEAD
     - _Distance: 0.3
     - _Power: 2
     - _QueueControl: 0
     - _QueueOffset: -24
     m_Colors:
     - _Color: {r: 0.51562446, g: 0.72100127, b: 0.73229635, a: 1}
-=======
-    - _Distance: 0.45
-    - _Power: 4
-    - _QueueControl: 0
-    - _QueueOffset: -24
-    m_Colors:
-    - _Color: {r: 0.19021088, g: 0.05545861, b: 0.05545861, a: 1}
->>>>>>> d30e485 (fog effect)
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8564281871151971663
