@@ -27,6 +27,7 @@ public class ShipShooting : MonoBehaviour
         Cursor.visible = false;
     }
     void Update() {
+        if (LevelEndAnimator.AnimPlaying()) { return; }
         indicator2D.SetActive(targetingMode == TargetingMode.TwoD);
         indicator3D.SetActive(targetingMode == TargetingMode.ThreeD);
         if (targetingMode == TargetingMode.ThreeD) {
