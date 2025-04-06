@@ -12,6 +12,7 @@ public class ShipMovement : MonoBehaviour
         playerDamage = GetComponent<PlayerDamage>();
     }
     void Update() {
+        if (LevelEndAnimator.AnimPlaying()) { return; }
         Vector2 inputDir = Vector2.zero;
         if (Input.GetKey(KeyCode.W)) { inputDir += Vector2.up; }
         if (Input.GetKey(KeyCode.A)) { inputDir += Vector2.left; }

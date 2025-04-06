@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ShipShooting : MonoBehaviour
 {
+    public static ShipShooting instance;
     public GameObject bulletPrefab;
     public List<Transform> guns;
     public GameObject indicator3D;
@@ -22,11 +23,15 @@ public class ShipShooting : MonoBehaviour
     private float? lastShoot;
     public float shootDelay = .25f;
     public AudioSource shootSource;
+    public Animator gunAnimator;
     void OnEnable() {
         cam = Camera.main;
         Cursor.visible = false;
+        instance = this;
+        gunAnimator.SetBool("GunsOpen", true);
     }
     void Update() {
+        if (LevelEndAnimator.AnimPlaying()) { return; }
         indicator2D.SetActive(targetingMode == TargetingMode.TwoD);
         indicator3D.SetActive(targetingMode == TargetingMode.ThreeD);
         if (targetingMode == TargetingMode.ThreeD) {
