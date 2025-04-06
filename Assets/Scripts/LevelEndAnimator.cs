@@ -1,19 +1,21 @@
 using System.Net;
-using UnityEditor.Build;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelEndAnimator : MonoBehaviour
 {
     public static LevelEndAnimator instance;
-    private float endAnimStartTime = -1;
+    public float endAnimStartTime = -100;
     public LevelInfo currentLevel;
     public AudioClip clipDrillA;
     public AudioClip clipDrillB;
     public AudioClip clipDrillLongA;
     public GameObject ship;
-    private Vector3 originalCamPos;
-    private int soundState = 0;
-    private AudioSource audioSource;
+    public Vector3 originalCamPos;
+    public int soundState = 0;
+    [HideInInspector]
+    public AudioSource audioSource;
     private Vector3 originalShipPos;
     private Quaternion originalShipRot;
     private float[] clipSample = new float[1024];
@@ -22,25 +24,25 @@ public class LevelEndAnimator : MonoBehaviour
     private Vector3 currentShakeDir = Vector3.zero;
     public GameObject diggingParticleObject;
     public AudioSource windSource;
+    private bool endedLevel = true;
     void OnEnable() {
         instance = this;
         audioSource = GetComponent<AudioSource>();
     }
-    void Update()
-    {
+    void LateUpdate() {
         var cam = Camera.main;
-        if (endAnimStartTime < 0) {
-            if (transform.position.z > currentLevel.endBlock.position.z - currentLevel.endBlock.localScale.z*.5f - 20) {
+
+        if (endAnimStartTime < -50) {
+            if (transform.position.z > currentLevel.endBlock.position.z - currentLevel.endBlock.localScale.z*.5f - 75) {
                 endAnimStartTime = Time.time;
                 originalCamPos = cam.transform.position;
                 soundState = 0;
 
                 originalShipPos = ship.transform.position;
                 originalShipRot = ship.transform.rotation;
-
-                ShipShooting.instance.gunAnimator.SetBool("GunsOpen", false);
+                endedLevel = false;
             }
-            if (endAnimStartTime < 0) {
+            if (endAnimStartTime < -50) {
                 diggingParticleObject.SetActive(false);
             }
             return;
@@ -50,34 +52,56 @@ public class LevelEndAnimator : MonoBehaviour
         float dt = Time.time - endAnimStartTime;
         float moveT = Mathf.Clamp01(dt / .5f);
         float rotT = dt / 2f;
-        var newCameraPos = ship.transform.position + Vector3.back*2 + Quaternion.AngleAxis(rotT*180, Vector3.back)*Vector3.right*20f*Mathf.Clamp01(moveT);
+        var camOffset = Vector3.back*2 + Quaternion.AngleAxis(rotT*180, Vector3.back)*Vector3.right*20f*Mathf.Clamp01(moveT);
+        var camUp = Vector3.back;
+        if (GameDirector.instance.transitionTime >= 0) {
+            moveT = (Time.time - GameDirector.instance.transitionTime) / 1.5f;
+            camOffset = Vector3.back * CameraFollow.instance.followDist;
+            camUp = Vector3.up;
+        }
+        var newCameraPos = ship.transform.position + camOffset;
         cam.transform.position = (1-moveT)*originalCamPos + moveT*newCameraPos;
-        cam.transform.LookAt(ship.transform, Vector3.back);
+        cam.transform.LookAt(ship.transform, camUp);
 
-        var surfaceShipPos = currentLevel.endBlock.transform.position - Vector3.forward*currentLevel.endBlock.transform.localScale.z*.5f + Vector3.back*2.5f;
+        var endBlock = currentLevel.endBlock;
+        if (dt > 4.5f) {
+            endBlock = GameDirector.instance.mainMenuInfo.endBlock;
+        }
+        transform.position = endBlock.transform.position - (endBlock.localScale.z*.5f + 40)*Vector3.forward;
+        var surfaceShipPos = endBlock.transform.position - Vector3.forward*endBlock.transform.localScale.z*.5f + Vector3.back*2.5f;
         if (dt > 4) {
             diggingParticleObject.SetActive(true);
             float shipT = Mathf.Clamp01((dt - 4) / .5f);
             ship.transform.position = surfaceShipPos + Vector3.forward*shipT*10f;
+            ship.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
-            audioSource.clip.GetData(clipSample, audioSource.timeSamples);
-            float vol = 1 - Time.deltaTime;
-            foreach (float sample in clipSample) {
-                vol += Mathf.Abs(sample) * 0.001f;
+            if (!endedLevel) {
+                endedLevel = true;
+                GameDirector.instance.state = GameDirector.GameState.InMenu;
+                GameDirector.instance.nextLevel++;
             }
-            avgVolume = avgVolume*.7f + vol*.3f;
 
-            if (vol > avgVolume*.95f && currentShakeDir.magnitude < 1f) {
-                currentShakeDir = Random.insideUnitSphere * 50f * Mathf.Clamp01((vol - avgVolume*.95f) * 10f);
+            if (audioSource.clip != null) {
+                audioSource.clip.GetData(clipSample, audioSource.timeSamples);
+                float vol = 1 - Time.deltaTime;
+                foreach (float sample in clipSample) {
+                    vol += Mathf.Abs(sample) * 0.001f;
+                }
+                avgVolume = avgVolume*.7f + vol*.3f;
+
+                if (vol > avgVolume*.95f && currentShakeDir.magnitude < 1f) {
+                    currentShakeDir = Random.insideUnitSphere * 50f * Mathf.Clamp01((vol - avgVolume*.95f) * 10f);
+                }
+                currentShakeDir *= Mathf.Clamp01(1 - Time.deltaTime*1);
+                cameraShakeOffset *= Mathf.Clamp01(1 - Time.deltaTime*1);
+                cameraShakeOffset += currentShakeDir * Mathf.Clamp01((vol - avgVolume*.95f)*10) * Time.deltaTime;
+                cam.transform.LookAt(ship.transform.position + cameraShakeOffset, Vector3.back);
             }
-            currentShakeDir *= Mathf.Clamp01(1 - Time.deltaTime*1);
-            cameraShakeOffset *= Mathf.Clamp01(1 - Time.deltaTime*1);
-            cameraShakeOffset += currentShakeDir * Mathf.Clamp01((vol - avgVolume*.95f)*10) * Time.deltaTime;
-            cam.transform.LookAt(ship.transform.position + cameraShakeOffset, Vector3.back);
         } else {
             float shipT = Mathf.Clamp01(dt / 2f);
             ship.transform.position = (1-shipT)*originalShipPos + shipT*surfaceShipPos;
             ship.transform.rotation = Quaternion.Lerp(originalShipRot, Quaternion.LookRotation(Vector3.forward, Vector3.up), shipT);
+            cam.transform.LookAt(ship.transform, camUp);
         }
 
         if (dt > 0f && soundState == 0) { PlaySound(clipDrillB); soundState++; }
@@ -95,6 +119,6 @@ public class LevelEndAnimator : MonoBehaviour
         audioSource.PlayOneShot(clip);
     }
     public static bool AnimPlaying() {
-        return instance.endAnimStartTime > 0;
+        return instance.endAnimStartTime > -50;
     }
 }

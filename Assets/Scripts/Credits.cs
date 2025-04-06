@@ -21,4 +21,7 @@ public class Credits {
 
     // wind
     // https://splice.com/sounds/sample/1cc87c8488835648d87d66f20bcd1a4092491f32c8160b76e57504bd418f5773
+
+    // slam when entering level
+    // https://splice.com/sounds/sample/65b6bbfd0f5b5c5e65f47bb4e52a173d0d14371d615c420de757983831b5dc19
 }

@@ -28,12 +28,13 @@ public class ShipShooting : MonoBehaviour
         cam = Camera.main;
         Cursor.visible = false;
         instance = this;
-        gunAnimator.SetBool("GunsOpen", true);
     }
     void Update() {
-        if (LevelEndAnimator.AnimPlaying()) { return; }
-        indicator2D.SetActive(targetingMode == TargetingMode.TwoD);
-        indicator3D.SetActive(targetingMode == TargetingMode.ThreeD);
+        bool gunsOpen = GameDirector.PlayingLevel() && !LevelEndAnimator.AnimPlaying();
+        gunAnimator.SetBool("GunsOpen", gunsOpen);
+        indicator2D.SetActive(targetingMode == TargetingMode.TwoD && gunsOpen);
+        indicator3D.SetActive(targetingMode == TargetingMode.ThreeD && gunsOpen);
+        if (!gunsOpen) { return; }
         if (targetingMode == TargetingMode.ThreeD) {
             indicator3D.transform.position = GetCamTargetPoint();
             indicator3D.transform.LookAt(cam.transform);

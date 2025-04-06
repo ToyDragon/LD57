@@ -9,7 +9,7 @@ public class ForwardMovement : MonoBehaviour
         damageController = GetComponentInChildren<PlayerDamage>();
     }
     void Update() {
-        if (LevelEndAnimator.AnimPlaying()) { return; }
+        if (!GameDirector.PlayingLevel() || LevelEndAnimator.AnimPlaying()) { return; }
         transform.position += Vector3.forward * Time.deltaTime * speed * (.2f + .8f*Mathf.Clamp01(1 - damageController.damage/3));
     }
 }
