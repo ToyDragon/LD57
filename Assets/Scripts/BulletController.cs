@@ -17,11 +17,16 @@ public class BulletController : MonoBehaviour
         }
     }
     void OnTriggerEnter(Collider other) {
+        Debug.Log("Trigger Enter!");
         var enemy = other.GetComponentInParent<EnemyHealth>();
+        var door = other.GetComponentInParent<DoorController>();
         if (enemy) {
             enemy.Hit();
             EffectsManager.BulletHit(transform.position, (transform.position - other.transform.position).normalized, true);
             Destroy(gameObject);
+        } else if(door) {
+            EffectsManager.BulletHit(transform.position, (transform.position - other.transform.position).normalized, true);
+            door.Hit();
         }
     }
     void OnCollisionEnter(Collision collision) {

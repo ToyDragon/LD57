@@ -8,7 +8,7 @@ public class FanController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        fanObject.transform.Rotate(new Vector3(0f, Random.Range(0,360f), 0f));
     }
 
     // Update is called once per frame
