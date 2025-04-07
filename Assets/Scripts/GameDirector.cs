@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -31,6 +32,10 @@ public class GameDirector : MonoBehaviour
     public GameObject pressSpace;
     public float levelCompleteAnimStart = 0;
     public GameObject winText;
+    public GameObject wasdHint;
+    public GameObject clickHint;
+    private bool everWASD = false;
+    private bool everClick = false;
     void OnEnable() {
         instance = this;
         foreach (var level in levels) {
@@ -62,6 +67,19 @@ public class GameDirector : MonoBehaviour
         menuItems.SetActive(state == GameState.InMenu);
 
         winText.SetActive(nextLevel >= levels.Count);
+
+        wasdHint.SetActive(state == GameState.InLevel && !everWASD);
+        clickHint.SetActive(state == GameState.InLevel && !everClick);
+
+        if (state == GameState.InLevel) {
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) {
+                everWASD = true;
+            }
+            if (Input.GetKey(KeyCode.Mouse0)) {
+                everClick = true;
+            }
+        }
+
 
         if (transitionTime <= 0 && state == GameState.InMenu) {
             if (nextLevel == 0) {
