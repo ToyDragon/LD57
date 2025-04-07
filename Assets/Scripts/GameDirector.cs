@@ -56,6 +56,9 @@ public class GameDirector : MonoBehaviour
         ind.ix = 0;
         ind.stageCount = levels.Count;
         ind.text.text = $"1000m";
+        ind.difficultyText.text = levels[0].difficulty;
+        ind.innerCircle.color = levels[0].circleColor;
+        ind.outerCircle.color = levels[0].circleColor;
         stageIndicators.Add(ind);
         for (int i = 1; i < levels.Count; i++) {
             var go = GameObject.Instantiate(baseStageIndicator);
@@ -64,6 +67,9 @@ public class GameDirector : MonoBehaviour
             ind.ix = i;
             ind.stageCount = levels.Count;
             ind.text.text = $"{i+1}000m";
+            ind.difficultyText.text = levels[i].difficulty;
+            ind.innerCircle.color = levels[i].circleColor;
+            ind.outerCircle.color = levels[i].circleColor;
             stageIndicators.Add(ind);
         }
     }

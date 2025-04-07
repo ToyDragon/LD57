@@ -6,6 +6,7 @@ public class UIStageIndicator : MonoBehaviour
     public RawImage outerCircle;
     public RawImage innerCircle;
     public TMPro.TMP_Text text;
+    public TMPro.TMP_Text difficultyText;
     public int ix;
     public int stageCount;
     public float timeComplete = -1;
