@@ -10,6 +10,8 @@ public class IncomingBulletIndicator3D : MonoBehaviour
     public Vector2 screenDest;
     public Color startColor = Color.white;
     public Color endColor = Color.red;
+    public AudioSource hitSound;
+    private float endTime = -1;
     [HideInInspector]
     public float scale;
     private float maxdist = 40;
@@ -25,7 +27,15 @@ public class IncomingBulletIndicator3D : MonoBehaviour
     }
     void Update() {
         if (!bullet) {
-            Destroy(gameObject);
+            innerCircle.enabled = false;
+            outerCircle.enabled = false;
+            if (endTime == -1) {
+                hitSound.Play();
+                endTime = Time.time;
+            }
+            if (Time.time - endTime > 2f) {
+                Destroy(gameObject);
+            }
             return;
         }
         var worldHitSpot = ShipMovement.GetScreenPos(screenDest) + Vector3.back*2;

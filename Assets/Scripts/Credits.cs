@@ -27,4 +27,10 @@ public class Credits {
 
     // chime
     // https://splice.com/sounds/sample/b9fe4e96be6cf4ce81e852243576ca7568228af4423b49075bdc174857b5d3cb
+
+    // pop
+    // https://splice.com/sounds/sample/0be21b30ee839d1170249700d399c1a801692f2ab33b74f2689c458bf53e7dd5
+    
+    // enemy fire
+    // https://splice.com/sounds/sample/ba334dff32a2c45a7b45e68882f84a76aa342a171cc63b93e52976cfb3139815
 }
