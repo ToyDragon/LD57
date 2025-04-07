@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public static int killsThisLevel = 0;
     public int life;
     void Update() {
         
@@ -10,6 +11,7 @@ public class EnemyHealth : MonoBehaviour
         life -= 1;
         if (life < 0) {
             Destroy(gameObject);
+            killsThisLevel++;
         }
     }
 }
