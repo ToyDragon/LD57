@@ -13,6 +13,7 @@ public class PlayerDamage : MonoBehaviour
     public float lastHitTime = -100;
     public LayerMask collisionMask;
     public LayerMask ringMask;
+    public int hitsTakenThisLevel = 0;
     public AudioSource ringChimeSource;
     void OnEnable() {
         instance = this;
@@ -29,6 +30,7 @@ public class PlayerDamage : MonoBehaviour
         }
     }
     private void TakeHit() {
+        hitsTakenThisLevel++;
         lastHitTime = Time.time;
         damage += .5f + 1.5f*Mathf.Clamp01(1 - damage/4);
         foreach (var sound in hurtSounds) {

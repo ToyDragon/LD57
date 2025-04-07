@@ -36,6 +36,10 @@ public class GameDirector : MonoBehaviour
     public GameObject clickHint;
     private bool everWASD = false;
     private bool everClick = false;
+    private List<float> levelTimes = new List<float>();
+    private List<int> levelHitsTaken = new List<int>();
+    private List<int> levelKills = new List<int>();
+    private int levelKillables = 0;
     void OnEnable() {
         instance = this;
         foreach (var level in levels) {
@@ -71,6 +75,20 @@ public class GameDirector : MonoBehaviour
         wasdHint.SetActive(state == GameState.InLevel && !everWASD);
         clickHint.SetActive(state == GameState.InLevel && !everClick);
 
+        if (state == GameState.InMenu && levelTimes.Count == nextLevel - 1) {
+            float lvlTime = Time.time - levelStartTime;
+            levelTimes.Add(lvlTime);
+            levelKills.Add(EnemyHealth.killsThisLevel);
+            levelHitsTaken.Add(PlayerDamage.instance.hitsTakenThisLevel);
+            string s = $"\n{Mathf.Floor(lvlTime)}s";
+            s += $"\n{EnemyHealth.killsThisLevel}/{levelKillables} Kills";
+            s += $"\n{PlayerDamage.instance.hitsTakenThisLevel} Hit{(PlayerDamage.instance.hitsTakenThisLevel!=1?"s":"")} Taken";
+            stageIndicators[nextLevel-1].text.text += s;
+
+            EnemyHealth.killsThisLevel = 0;
+            PlayerDamage.instance.hitsTakenThisLevel = 0;
+        }
+
         if (state == GameState.InLevel) {
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) {
                 everWASD = true;
@@ -88,7 +106,7 @@ public class GameDirector : MonoBehaviour
                 if (levelCompleteAnimStart == 0) {
                     levelCompleteAnimStart = Time.time;
                 }
-                if (Time.time - levelCompleteAnimStart < 4 && nextLevel < stageIndicators.Count - 1) {
+                if (Time.time - levelCompleteAnimStart < 4 && nextLevel < stageIndicators.Count) {
                     float drillT = Mathf.Clamp01((Time.time - levelCompleteAnimStart - 1) / 3);
                     drillIcon.transform.position = Vector3.Lerp(stageIndicators[nextLevel-1].transform.position, stageIndicators[nextLevel].transform.position, drillT) + Vector3.up * 40;
                     pressSpace.SetActive(false);
@@ -107,6 +125,9 @@ public class GameDirector : MonoBehaviour
                         levels[nextLevel-1].gameObject.SetActive(false);
                     }
                     levels[nextLevel].gameObject.SetActive(true);
+                    var allKillables = new List<EnemyHealth>();
+                    levels[nextLevel].gameObject.GetComponentsInChildren<EnemyHealth>(allKillables);
+                    levelKillables = allKillables.Count;
                 } else {
                     Debug.Log($"No more levels!");
                 }
