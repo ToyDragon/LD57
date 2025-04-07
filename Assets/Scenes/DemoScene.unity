@@ -153,6 +153,7 @@ MonoBehaviour:
   - {fileID: 1151715938}
   - {fileID: 621262491}
   - {fileID: 564060742}
+  - {fileID: 929631716}
   forwardMovement: {fileID: 655412151}
   ship: {fileID: 652511493}
   enterLevelSound: {fileID: 1519395941}
@@ -683,6 +684,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3df2282da2b809b4c92118c3b71814bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &652511494 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1173950921537441113, guid: 745862df0fa1d1092b7e36b684dff684, type: 3}
+  m_PrefabInstance: {fileID: 1519395940}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &655412151 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6723411052247854683, guid: 745862df0fa1d1092b7e36b684dff684, type: 3}
@@ -874,6 +880,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1489437156}
   m_SourcePrefab: {fileID: 100100000, guid: 7444264cfa2ae7346ae12edc35b03e54, type: 3}
+--- !u!114 &929631716 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8165544659793798682, guid: 68238fee58e510d809073c2d3e6cab31, type: 3}
+  m_PrefabInstance: {fileID: 4002924122022378376}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abdacf071701cd6ec84d00d1fd59f35e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1115057643 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 978926142879021753, guid: 67e71695174d035d9a3bf6094d055da4, type: 3}
@@ -923,6 +940,7 @@ MonoBehaviour:
   endBlock: {fileID: 558159039}
   difficulty: 
   circleColor: {r: 0, g: 0, b: 0, a: 0}
+  loopUntilAllDead: 0
 --- !u!4 &1263826242
 Transform:
   m_ObjectHideFlags: 0
@@ -1907,10 +1925,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: level 4
       objectReference: {fileID: 0}
-    - target: {fileID: 2047363565744710593, guid: 68238fee58e510d809073c2d3e6cab31, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 4515575669149775826, guid: 68238fee58e510d809073c2d3e6cab31, type: 3}
+      propertyPath: shipTransform
+      value: 
+      objectReference: {fileID: 652511494}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2106,6 +2124,14 @@ PrefabInstance:
     - target: {fileID: 3832438786223663352, guid: f06066824b677210e85b407c60683d54, type: 3}
       propertyPath: m_Name
       value: level 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486000862262712476, guid: f06066824b677210e85b407c60683d54, type: 3}
+      propertyPath: circleColor.b
+      value: 0.04705882
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486000862262712476, guid: f06066824b677210e85b407c60683d54, type: 3}
+      propertyPath: circleColor.g
+      value: 0.35013947
       objectReference: {fileID: 0}
     - target: {fileID: 7071920356471180173, guid: f06066824b677210e85b407c60683d54, type: 3}
       propertyPath: m_LocalPosition.x

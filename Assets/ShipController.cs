@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
+    public static ShipController instance;
     int index = 0;
     ShipEnemyShootScreen currentPattern;
     public ShipEnemyShootScreen timeToDie;
@@ -18,12 +19,12 @@ public class ShipController : MonoBehaviour
     public Vector2 startPos;
     public Transform shipTransform;
     Vector2? currentDestination = null;
-    MovementType movementType = MovementType.CIRCLE;
+    public MovementType movementType = MovementType.CIRCLE;
     private const float scale = 15;
     const float quarterPI = Mathf.PI/4f;
     bool hold = false;
-    float holdTime = 0f;
-    float holdDelay = .5f;
+    public float holdTime = 0f;
+    public float holdDelay = .5f;
     int destinationIndex = 0;
     bool transitionOne = false;
     bool transitionTwo = false;
@@ -34,7 +35,9 @@ public class ShipController : MonoBehaviour
         new Vector2(Mathf.Cos(7*quarterPI), Mathf.Sin(7*quarterPI)) * scale
     };
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void OnEnable() {
+        instance = this;
+    }
     void Start()
     {
         currentPattern = patterns[0];
@@ -91,7 +94,8 @@ public class ShipController : MonoBehaviour
                 var speed = 25f; 
                 Vector3 destination = new Vector3(currentDestination.Value.x, currentDestination.Value.y, shipTransform.position.z + 50f);
                 Vector3 diff = destination - transform.position;
-                if(diff.magnitude <= .1f) {
+                Debug.Log($"diff {diff} {diff.magnitude}");
+                if(new Vector3(diff.x, diff.y, 0).magnitude <= speed * Time.deltaTime) {
                     transform.position = destination;
                     hold = true;
                     holdTime = 0f;
