@@ -11,7 +11,7 @@ public class GameDirector : MonoBehaviour
     public ForwardMovement forwardMovement;
     public ShipMovement ship;
     public AudioSource enterLevelSound;
-
+    public AudioSource musicSound;
     public int nextLevel = 0;
     public float transitionTime = -1;
     private int soundState = 0;
@@ -42,6 +42,9 @@ public class GameDirector : MonoBehaviour
                     transitionTime = Time.time;
                     endAnim.originalCamPos = Camera.main.transform.position;
                     soundState = 0;
+                    if (nextLevel == 0) {
+                        musicSound.Play();
+                    }
                 } else {
                     Debug.Log($"No more levels!");
                 }
