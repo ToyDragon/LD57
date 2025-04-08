@@ -45,6 +45,7 @@ public class GameDirector : MonoBehaviour
         foreach (var level in levels) {
             level.gameObject.SetActive(false);
         }
+        Application.targetFrameRate = 60;
     }
     void Start() {
         endAnim = forwardMovement.GetComponent<LevelEndAnimator>();
